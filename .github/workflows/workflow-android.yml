@@ -1,13 +1,13 @@
 name: Build Android
 
 on:
-  push:
-    tags:
-       - 'android-build'
+  pull_request: 
+    types: ['labeled']
 
 jobs:
   build-android:
-    if: ${{ startsWith(github.ref, 'refs/tags/android-build') }}
+    if: contains(github.event.pull_request.labels.*.name, 'android-build')
+  
     name: Build Android
     runs-on: ubuntu-latest
 
