@@ -1,7 +1,9 @@
 name: Build Android
 
 on:
-  create:
+  push:
+    tags:
+       - 'android-build'
 
 jobs:
   build-android:
