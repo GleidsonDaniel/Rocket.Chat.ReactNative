@@ -89,7 +89,8 @@ import com.android.build.OutputFile
 project.ext.react = [
     bundleAssetName: "app.bundle",
     iconFontNames: [ 'custom.ttf' ],
-    enableHermes: true,  // clean and rebuild if changing
+    enableHermes: true,  // clean and rebuild if changing,
+    extraPackagerArgs: ["--sourcemap-output", "$buildDir/intermediates/sourcemaps/react/release/index.android.bundle.packager.map"]
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
