@@ -6,7 +6,7 @@ on: [workflow_dispatch]
 
 jobs:
   build-android:
-    if: contains(github.event.pull_request.labels.*.name, 'android-build')
+    # if: contains(github.event.pull_request.labels.*.name, 'android-build')
   
     name: Build Android
     runs-on: ubuntu-latest
