@@ -1,8 +1,9 @@
 name: Build Android
 
 on:
-  pull_request: 
-    types: ['labeled']
+  workflow_dispatch:
+#   pull_request: 
+#     types: ['labeled']
 
 jobs:
   build-android:
@@ -25,7 +26,7 @@ jobs:
         uses: timheuer/base64-to-file@v1
         with:
           fileName: 'key.keystore'
-          encodedString: ${{ secrets.KEYSTORE }}
+          encodedString: ${{ secrets.KEYSTORE_BASE_64 }}
 
       - uses: c-hive/gha-yarn-cache@v2
 
