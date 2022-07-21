@@ -26,7 +26,7 @@ jobs:
         with:
           encodedString: ${{ secrets.KEYSTORE_BASE_64 }}
           fileDir: './android/'
-          fileName: 'temp-decode.txt''
+          fileName: 'temp-decode.txt'
 
       - uses: c-hive/gha-yarn-cache@v2
 
