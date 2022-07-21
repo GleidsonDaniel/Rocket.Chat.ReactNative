@@ -20,6 +20,13 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v3
 
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'key.keystore'
+          encodedString: ${{ secrets.KEYSTORE }}
+
       - uses: c-hive/gha-yarn-cache@v2
 
       - name: Install dependencies
@@ -32,12 +39,24 @@ jobs:
           java-version: 11.0.14
           cache: "gradle"
 
-      - name: Generate assets
-        run: npx react-native bundle --platform android --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
-
       - name: Make Gradlew Executable
         run: cd android && chmod +x ./gradlew
 
+      - name: Set gradle.properties
+        run: |
+            echo -e "" > ./gradle.properties
+            # echo -e "android.enableAapt2=false" >> ./gradle.properties
+            echo -e "android.useAndroidX=true" >> ./gradle.properties
+            echo -e "android.enableJetifier=true" >> ./gradle.properties
+            echo -e "FLIPPER_VERSION=0.51.0" >> ./gradle.properties
+            echo -e "VERSIONCODE=${{ github.run_number }}" >> ./gradle.properties
+            echo -e "APPLICATION_ID=chat.rocket.reactnative" >> ./gradle.properties
+            echo -e "BugsnagAPIKey=${{ secrets.BUGSNAG_KEY }}" >> ./gradle.properties
+            echo -e "KEYSTORE=${{ secrets.KEYSTORE }}" >> ./gradle.properties
+            echo -e "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> ./gradle.properties
+            echo -e "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> ./gradle.properties
+            echo -e "KEY_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> ./gradle.properties
+
       - name: Generate App APK
         run: |
-          cd android && ./gradlew bundleExperimentalPlayDebug --no-daemon
+          cd android && ./gradlew bundleExperimentalPlayRelease --no-daemon
