@@ -41,7 +41,7 @@ jobs:
       - name: Set gradle.properties
         run: |
             echo -e "" > ./android/gradle.properties
-            echo -e "android.enableAapt2=false" >> ./android/gradle.properties
+            # echo -e "android.enableAapt2=false" >> ./android/gradle.properties
             echo -e "android.useAndroidX=true" >> ./android/gradle.properties
             echo -e "android.enableJetifier=true" >> ./android/gradle.properties
             echo -e "FLIPPER_VERSION=0.51.0" >> ./android/gradle.properties
