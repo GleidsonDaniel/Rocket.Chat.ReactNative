@@ -9,7 +9,7 @@ jobs:
     # if: contains(github.event.pull_request.labels.*.name, 'android-build')
   
     name: Build Android
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     env:
       JAVA_OPTS: "-Xms512m -Xmx2g"
