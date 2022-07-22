@@ -53,6 +53,15 @@ jobs:
             echo -e "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> ./android/gradle.properties
             echo -e "KEY_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> ./android/gradle.properties
 
+      - name: Read package.json
+        id: package
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./android/gradle.properties
+
+      - name: Echo package.json
+        run: echo "${{ steps.package.outputs.content }}"      
+
       - name: Generate App APK
         run: |
           cd android && ./gradlew bundleExperimentalPlayRelease --no-daemon
