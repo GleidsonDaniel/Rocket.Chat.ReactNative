@@ -23,11 +23,6 @@ jobs:
       - name: Decode Keystore
         run: echo ${{ secrets.KEYSTORE_BASE_64 }} | base64 -d > ./android/app/key.keystore
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'yarn'
-
       - uses: c-hive/gha-yarn-cache@v2
 
       - name: Install dependencies
