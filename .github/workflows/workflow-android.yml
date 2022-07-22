@@ -42,7 +42,6 @@ jobs:
       - name: Set gradle.properties
         run: |
             echo -e "" > ./android/gradle.properties
-            # echo -e android.enableAapt2=false >> ./android/gradle.properties
             echo -e android.useAndroidX=true >> ./android/gradle.properties
             echo -e android.enableJetifier=true >> ./android/gradle.properties
             echo -e FLIPPER_VERSION=0.51.0 >> ./android/gradle.properties
@@ -52,16 +51,7 @@ jobs:
             echo -e KEYSTORE=${{ secrets.KEYSTORE }} >> ./android/gradle.properties
             echo -e KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }} >> ./android/gradle.properties
             echo -e KEY_ALIAS=${{ secrets.KEY_ALIAS }} >> ./android/gradle.properties
-            echo -e KEY_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }} >> ./android/gradle.properties
-
-      - name: Read package.json
-        id: package
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./android/gradle.properties
-
-      - name: Echo package.json
-        run: echo "${{ steps.package.outputs.content }}"      
+            echo -e KEY_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }} >> ./android/gradle.properties     
 
       - name: Generate App APK
         run: |
