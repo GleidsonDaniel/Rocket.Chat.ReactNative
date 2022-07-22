@@ -10,6 +10,7 @@ jobs:
   
     name: Build Android
     runs-on: ubuntu-latest
+    environment: ROCKET
 
     env:
       JAVA_OPTS: "-Xms512m -Xmx2g"
