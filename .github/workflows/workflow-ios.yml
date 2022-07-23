@@ -10,6 +10,7 @@ jobs:
   
     name: Build iOS
     runs-on: macos-latest
+    environment: ROCKET
     defaults:
       run:
         working-directory: ios
