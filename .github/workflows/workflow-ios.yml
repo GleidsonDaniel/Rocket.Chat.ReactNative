@@ -41,20 +41,20 @@ jobs:
             ${{ runner.os }}-pods-
 
       - name: Install Pods
-        run: cd ios && pod install --repo-update && cd ..
+        run: pod install --repo-update && cd ..
 
       - name: Set version
         run: agvtool new-version -all ${{ github.run_number }}
 
       - name: Set Keys
-        run: /usr/libexec/PlistBuddy -c "Set :bugsnag:apiKey ${{ secrets.BUGSNAG_KEY }}" ./ios/RocketChatRN/Info.plist
-              /usr/libexec/PlistBuddy -c "Set :bugsnag:apiKey ${{ secrets.BUGSNAG_KEY }}" ./ios/ShareRocketChatRN/Info.plist
-              /usr/libexec/PlistBuddy -c "Set IS_OFFICIAL NO" ./ios/RocketChatRN/Info.plist
-              /usr/libexec/PlistBuddy -c "Set IS_OFFICIAL NO" ./ios/ShareRocketChatRN/Info.plist
-              /usr/libexec/PlistBuddy -c "Set IS_OFFICIAL NO" ./ios/NotificationService/Info.plist
+        run: /usr/libexec/PlistBuddy -c "Set :bugsnag:apiKey ${{ secrets.BUGSNAG_KEY }}" ./RocketChatRN/Info.plist
+              /usr/libexec/PlistBuddy -c "Set :bugsnag:apiKey ${{ secrets.BUGSNAG_KEY }}" ./ShareRocketChatRN/Info.plist
+              /usr/libexec/PlistBuddy -c "Set IS_OFFICIAL NO" ./RocketChatRN/Info.plist
+              /usr/libexec/PlistBuddy -c "Set IS_OFFICIAL NO" ./ShareRocketChatRN/Info.plist
+              /usr/libexec/PlistBuddy -c "Set IS_OFFICIAL NO" ./NotificationService/Info.plist
 
       - name: Decode P8
-        run: echo ${{ secrets.APP_STORE_CONNECT_API_BASE64 }} | base64 --decode > ./ios/fastlane/app_store_connect_api_key.p8
+        run: echo ${{ secrets.APP_STORE_CONNECT_API_BASE64 }} | base64 --decode > ./fastlane/app_store_connect_api_key.p8
       
       - name: Run fastlane
-        run: cd ios && fastlane ios build_experimental
+        run: fastlane ios build_experimental
