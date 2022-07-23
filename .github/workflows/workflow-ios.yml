@@ -1,4 +1,4 @@
-name: Build Android
+name: Build iOS
 
 on: [workflow_dispatch]
 #   pull_request: 
