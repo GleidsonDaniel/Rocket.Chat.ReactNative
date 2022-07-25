@@ -1,13 +1,13 @@
 name: Build iOS
 
 on: [workflow_dispatch]
-#   pull_request: 
+#   pull_request:
 #     types: ['labeled']
 
 jobs:
   build-android:
     # if: contains(github.event.pull_request.labels.*.name, 'ios-build')
-  
+
     name: Build iOS
     runs-on: macos-latest
     environment: ROCKET
@@ -48,14 +48,15 @@ jobs:
         run: agvtool new-version -all ${{ github.run_number }}
 
       - name: Set Keys
-        run: /usr/libexec/PlistBuddy -c "Set :bugsnag:apiKey ${{ secrets.BUGSNAG_KEY }}" ./RocketChatRN/Info.plist
-              /usr/libexec/PlistBuddy -c "Set :bugsnag:apiKey ${{ secrets.BUGSNAG_KEY }}" ./ShareRocketChatRN/Info.plist
-              /usr/libexec/PlistBuddy -c "Set IS_OFFICIAL NO" ./RocketChatRN/Info.plist
-              /usr/libexec/PlistBuddy -c "Set IS_OFFICIAL NO" ./ShareRocketChatRN/Info.plist
-              /usr/libexec/PlistBuddy -c "Set IS_OFFICIAL NO" ./NotificationService/Info.plist
+        run: |
+          /usr/libexec/PlistBuddy -c "Set :bugsnag:apiKey ${{ secrets.BUGSNAG_KEY }}" ./RocketChatRN/Info.plist
+          /usr/libexec/PlistBuddy -c "Set :bugsnag:apiKey ${{ secrets.BUGSNAG_KEY }}" ./ShareRocketChatRN/Info.plist
+          /usr/libexec/PlistBuddy -c "Set IS_OFFICIAL NO" ./RocketChatRN/Info.plist
+          /usr/libexec/PlistBuddy -c "Set IS_OFFICIAL NO" ./ShareRocketChatRN/Info.plist
+          /usr/libexec/PlistBuddy -c "Set IS_OFFICIAL NO" ./NotificationService/Info.plist
 
       - name: Decode P8
         run: echo ${{ secrets.APP_STORE_CONNECT_API_BASE64 }} | base64 --decode > ./fastlane/app_store_connect_api_key.p8
-      
+
       - name: Run fastlane
         run: fastlane ios build_experimental
