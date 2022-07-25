@@ -21,15 +21,20 @@ jobs:
 
       - uses: c-hive/gha-yarn-cache@v2
 
-      - name: Install dependencies
-        run: yarn install --prefer-offline
+      - name: wp
+        run: ls
 
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6
           bundler-cache: true
-      - run: bundle install
+      - run: BUNDLE_GEMFILE="Gemfile" bundle install
+
+      - name: Install dependencies
+        run: yarn install --prefer-offline
+
+
 
       - name: Restore Pods cache
         uses: actions/cache@v2
