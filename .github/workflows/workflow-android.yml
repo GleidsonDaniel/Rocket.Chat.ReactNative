@@ -64,7 +64,7 @@ jobs:
         run: |
           npx bugsnag-source-maps upload-react-native \
                --api-key=${{ secrets.BUGSNAG_KEY }} \
-               --app-version-code=${{ github.event.number }} \
+               --app-version-code=111 \
                --platform android \
                --source-map=app/build/generated/sourcemaps/react/experimentalPlay/release/app.bundle.map \
                --bundle app/build/generated/assets/react/experimentalPlay/release/app.bundle
@@ -72,5 +72,5 @@ jobs:
       - name: Store Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: app-experimental-play-release-${{ github.event.number }}.aab
+          name: app-experimental-play-release-111.aab
           path: app/build/outputs/bundle/experimentalPlayRelease/app-experimental-play-release.aab
