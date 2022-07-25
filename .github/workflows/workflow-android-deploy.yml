@@ -1,0 +1,25 @@
+name: Deploy Android
+
+on: [workflow_dispatch]
+#   pull_request: 
+#     types: ['labeled']
+
+jobs:
+  build-android:
+    # if: contains(github.event.pull_request.labels.*.name, 'android-deploy')
+  
+    name: Deploy Android
+    runs-on: ubuntu-latest
+    environment: ROCKET
+    defaults:
+      run:
+        working-directory: android
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: app-experimental-play-release-${{ github.event.number }}.aab
+

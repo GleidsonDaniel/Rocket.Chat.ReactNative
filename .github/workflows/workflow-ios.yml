@@ -21,20 +21,15 @@ jobs:
 
       - uses: c-hive/gha-yarn-cache@v2
 
-      - name: wp
-        run: ls
+      - name: Install dependencies
+        run: yarn install --prefer-offline
 
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6
           bundler-cache: true
-      - run: BUNDLE_GEMFILE="Gemfile" bundle install
-
-      - name: Install dependencies
-        run: yarn install --prefer-offline
-
-
+      - run: bundle install
 
       - name: Restore Pods cache
         uses: actions/cache@v2
@@ -66,3 +61,11 @@ jobs:
 
       - name: Run fastlane
         run: fastlane ios build_experimental
+
+      - name: Store Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Rocket.Chat.${{ github.event.number }}.ipa
+          path: |
+            Rocket.Chat.ipa
+            Rocket.Chat.app.dSYM.zip
