@@ -8,7 +8,7 @@ jobs:
   build-ios:
     # if: contains(github.event.pull_request.labels.*.name, 'ios-build')
     env:
-      MATCH_GIT_BASIC_AUTHORIZATION: ${{secrets.PRIVATE_SSH_KEY}}
+      MATCH_GIT_BASIC_AUTHORIZATION: ${{secrets.SSH_KEY_BASE_64}}
 
     name: Build iOS
     runs-on: macos-latest
@@ -26,9 +26,15 @@ jobs:
       - name: Ensure ssh-agent is enabled
         run: eval "$(ssh-agent -s)"
 
+      - uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.PRIVATE_SSH_KEY }}
+          name: id_rsa
+          # known_hosts: ${{ secrets.KNOWN_HOSTS }}
+
       - name: Git clone
         run: |
-          git clone git@github.com:GleidsonDaniel/kinsta.git -c http.extraheader='Authorization: Basic ${{secrets.PRIVATE_SSH_KEY}}'
+          git clone git@github.com:GleidsonDaniel/kinsta.git -c http.extraheader='Authorization: Basic ${{secrets.SSH_KEY_BASE_64}}'
       
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
