@@ -8,7 +8,7 @@ jobs:
   build-ios:
     # if: contains(github.event.pull_request.labels.*.name, 'ios-build')
     env:
-      MATCH_GIT_BASIC_AUTHORIZATION: "${{ secrets.PRIVATE_SSH_KEY }}"
+      MATCH_GIT_BASIC_AUTHORIZATION: ${{secrets.PRIVATE_SSH_KEY}}
 
     name: Build iOS
     runs-on: macos-latest
