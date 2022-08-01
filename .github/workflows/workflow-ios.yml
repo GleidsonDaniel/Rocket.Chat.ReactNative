@@ -19,10 +19,10 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v3
 
-      - uses: c-hive/gha-yarn-cache@v2
+      # - uses: c-hive/gha-yarn-cache@v2
 
-      - name: Install dependencies
-        run: yarn install --prefer-offline
+      # - name: Install dependencies
+      #   run: yarn install --prefer-offline
 
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
@@ -31,22 +31,22 @@ jobs:
           bundler-cache: true
       - run: bundle install
 
-      - name: Restore Pods cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ios/Pods
-            ~/Library/Caches/CocoaPods
-            ~/.cocoapods
-          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
+      # - name: Restore Pods cache
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: |
+      #       ios/Pods
+      #       ~/Library/Caches/CocoaPods
+      #       ~/.cocoapods
+      #     key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pods-
 
-      - name: Install Pods
-        run: pod install --repo-update && cd ..
+      # - name: Install Pods
+      #   run: pod install --repo-update && cd ..
 
-      - name: Set version
-        run: agvtool new-version -all ${{ github.run_number }}
+      # - name: Set version
+      #   run: agvtool new-version -all ${{ github.run_number }}
 
       - name: Set Keys
         run: |

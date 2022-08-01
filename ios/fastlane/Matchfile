@@ -1,4 +1,5 @@
-git_url("https://github.com/RocketChat/Rocket.Chat.Cordova.Fastlane")
+# git_url("https://github.com/RocketChat/Rocket.Chat.Cordova.Fastlane")
+git_url("https://github.com/GleidsonDaniel/kinsta.git")
 
 type("development") # The default type, can be: appstore, adhoc, enterprise or development
 
