@@ -26,9 +26,6 @@ jobs:
       - name: Ensure ssh-agent is enabled
         run: eval "$(ssh-agent -s)"
       
-      - name: Add your SSH key to the ssh-agent
-        run: echo ${{ secrets.SSH_KEY_BASE_64 }} | base64 -d > ~/.ssh/id_rsa && ssh-add ~/.ssh/id_rsa && chmod 400 ~/.ssh/id_rsa
-
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
         with:
