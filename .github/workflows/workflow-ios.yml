@@ -9,7 +9,6 @@ jobs:
     # if: contains(github.event.pull_request.labels.*.name, 'ios-build')
     env:
       MATCH_GIT_BASIC_AUTHORIZATION: ${{secrets.PRIVATE_SSH_KEY}}
-      SSH_AUTH_SOCK: /tmp/ssh_agent.sock
 
     name: Build iOS
     runs-on: macos-latest
@@ -24,12 +23,12 @@ jobs:
 
       # - uses: c-hive/gha-yarn-cache@v2
 
-      - name: Setup SSH Keys and known_hosts
+      - name: Ensure ssh-agent is enabled
+        run: eval "$(ssh-agent -s)"
+
+      - name: Git clone
         run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.PRIVATE_SSH_KEY }}"
+          git clone git@github.com:GleidsonDaniel/kinsta.git -c http.extraheader='Authorization: Basic ${{secrets.PRIVATE_SSH_KEY}}'
       
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
@@ -67,8 +66,6 @@ jobs:
         run: echo ${{ secrets.APP_STORE_CONNECT_API_BASE64 }} | base64 --decode > ./fastlane/app_store_connect_api_key.p8
 
       - name: Run fastlane
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: fastlane ios build_experimental
 
       - name: Store Artifacts
