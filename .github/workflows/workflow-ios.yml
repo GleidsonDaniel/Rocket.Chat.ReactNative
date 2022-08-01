@@ -18,6 +18,11 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v3
+      
+      - name: Set SSH
+      - run: | 
+          eval `ssh-agent -s`
+          ssh-add - <<< '${{ secrets.PRIVATE_SSH_KEY }}'
 
       # - uses: c-hive/gha-yarn-cache@v2
 
