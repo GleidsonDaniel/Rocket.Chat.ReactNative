@@ -9,6 +9,9 @@ jobs:
     # if: contains(github.event.pull_request.labels.*.name, 'ios-build')
     env:
       MATCH_GIT_BASIC_AUTHORIZATION: ${{secrets.SSH_KEY_BASE_64}}
+      MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
+      MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
 
     name: Build iOS
     runs-on: macos-latest
@@ -17,24 +20,17 @@ jobs:
       run:
         working-directory: ios
 
+        
+
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v3
-
-      # - uses: c-hive/gha-yarn-cache@v2
-
-      - name: Ensure ssh-agent is enabled
-        run: eval "$(ssh-agent -s)"
 
       - uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.PRIVATE_SSH_KEY }}
           name: id_rsa
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
-
-      - name: Git clone
-        run: |
-          git clone git@github.com:GleidsonDaniel/kinsta.git -c http.extraheader='Authorization: Basic ${{secrets.SSH_KEY_BASE_64}}'
       
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
@@ -42,23 +38,6 @@ jobs:
           ruby-version: 2.6
           bundler-cache: true
       - run: bundle install
-
-      # - name: Restore Pods cache
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: |
-      #       ios/Pods
-      #       ~/Library/Caches/CocoaPods
-      #       ~/.cocoapods
-      #     key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-pods-
-
-      # - name: Install Pods
-      #   run: pod install --repo-update && cd ..
-
-      # - name: Set version
-      #   run: agvtool new-version -all ${{ github.run_number }}
 
       - name: Set Keys
         run: |
