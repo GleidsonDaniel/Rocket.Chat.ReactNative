@@ -75,7 +75,7 @@ jobs:
         run: sed -i '' 's+https://github.com/+git@github.com:+g' fastlane/Matchfile
 
       - name: Run fastlane
-        run: bundle exec fastlane run create_keychain name:${{secrets.MATCH_KEYCHAIN_NAME}} password:{{secrets.MATCH_PASSWORD}}
+        run: bundle exec fastlane run create_keychain name:${{secrets.MATCH_KEYCHAIN_NAME}} password:${{secrets.MATCH_PASSWORD}}
       
       - name: Run fastlane
         run: bundle exec fastlane ios build_experimental
